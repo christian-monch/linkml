@@ -356,7 +356,8 @@ class IfAbsentProcessor(ABC):
 
     def _uri_for(self, s: str) -> str:
         uri = str(self.schema_view.namespaces().uri_for(s))
-        return self.schema_view.namespaces().curie_for(uri, True, True) or self._strval(uri)
+        curie = self.schema_view.namespaces().curie_for(uri, True)
+        return f"'{curie}'" if curie else self._strval(uri)
 
     def _strval(self, txt: str) -> str:
         txt = str(txt).replace('"', '\\"')
